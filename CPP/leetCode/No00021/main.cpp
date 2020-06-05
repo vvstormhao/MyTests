@@ -10,33 +10,24 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if (nullptr == l1 && nullptr != l2)
+        if (nullptr == l1)
         {   
-            printf("return %d\n", l2->val);
             return l2;
         }
-        else if (nullptr != l1 && nullptr == l2)
+        else if (nullptr == l2)
         {
-            printf("return %d\n", l1->val);
+            return l1;
+        }
+        else if (l1->val < l2->val)
+        {
+            l1->next = mergeTwoLists(l1->next, l2);
             return l1;
         }
         else
         {
-            printf("return nullptr\n");
-            return nullptr;
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
         }
-        
-
-        ListNode *ret = l1->val < l2->val ? l1 : l2;
-        if (l1->val < l2->val)
-        {
-            ret->next = mergeTwoLists(l1->next, l2);
-        }
-        else
-        {
-            ret->next = mergeTwoLists(l1, l2->next);
-        }
-        return ret;
     }
 };
 
