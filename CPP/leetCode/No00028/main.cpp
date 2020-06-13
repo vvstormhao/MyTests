@@ -16,14 +16,14 @@ public:
 
         int i = 0;
         int j = 1;
-        pNext[0] = 0;
+        pNext[0] = -1;
         auto nSize = needle.size();
-        while (j < nSize)
+        while (j < nSize && i < nSize)
         {
-            if (needle.at(i) == needle.at(j))
+            if (j == -1 || needle.at(i) == needle.at(j))
             {
                 printf("i is %d, j is %d, needle[i] is %c, needle[j] is %c", i, j, needle.at(i), needle.at(j));
-                pNext[j] = pNext[j - 1] + 1;
+                pNext[j] = i;
                 printf("next %d is %d\n", j, pNext[j]);
 
                 ++i;
