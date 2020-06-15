@@ -2,7 +2,7 @@
 
 void makeheap(int nums[]) 
 {
-    
+
 }
 
 // 最后一颗子树根节点位置 k/2 （k为节点总数）
@@ -11,9 +11,12 @@ void makeheap(int nums[])
 // 父亲节点 i/2
 void swim(int nums[], int pos)
 {
-    int tmp = nums[2 * pos];
-    nums[2 * pos] = nums[pos];
-    nums[pos] = tmp;
+    if (nums[pos] > nums[pos / 2])
+    {
+        int tmp = nums[2 * pos];
+        nums[2 * pos] = nums[pos];
+        nums[pos] = tmp;
+    }
 }
 
 void slink(int nums[], int pos)
