@@ -1,40 +1,95 @@
 #include <iostream>
+#include <vector>
 
-void makeheap(int nums[]) 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+void swim(vector<int> &nums, int nIndex)
 {
-
+    swap(nums[nIndex], nums[nIndex / 2]);
 }
 
-// 最后一颗子树根节点位置 k/2 （k为节点总数）
-// 左儿子 i + 1 (i为根节点)
-// 右儿子 i + 2 (i为根节点)
-// 父亲节点 i/2
-void swim(int nums[], int pos)
+void sink(vector<int> &nums, int nIndex, int nRange)
 {
-    if (nums[pos] > nums[pos / 2])
+    int n = nRange;
+    int l = 2 * nIndex;
+    int r = 2 * nIndex + 1;
+    if (min(l, r) > n - 1)
     {
-        int tmp = nums[2 * pos];
-        nums[2 * pos] = nums[pos];
-        nums[pos] = tmp;
+        return;
+    }
+
+    if (l < n && r < n)
+    {
+        int rl = nums[l];
+        int rr = nums[r];
+        if (nums[nIndex] < max(rl, rr))
+        {
+            int nTarget = rl > rr ? l : r;
+            swap(nums[nIndex], nums[nTarget]);
+            sink(nums, nTarget, n);
+        }
+    }
+    else
+    {
+        int rl = nums[l];
+        if (nums[nIndex] < rl)
+        {
+            swap(nums[nIndex], nums[l]);
+        }        
     }
 }
 
-void slink(int nums[], int pos)
+void heapPrint(vector<int> &nums)
 {
-    int nChild = pos + 1;
-    if (nums[pos + 1] < nums[pos + 2])
+    int n = nums.size();
+    for (int i = 0; i < n; ++i)
     {
-        nChild = pos + 2;
+        printf("%d ", nums[i]);
     }
-
-    int tmp = nums[pos];
-    nums[pos] = nums[nChild];
-    nums[nChild] = tmp;
-    slink(nums, nChild);
+    printf("\n");
 }
 
+void makeHeap(vector<int> &nums)
+{
+    int n = nums.size() / 2;
+    int nSzie = nums.size();
+    while (n > 0)
+    {
+        sink(nums, n, nSzie);
+        n--;
+    }
+}
+
+void Insert(vector<int> &nums, int val)
+{
+    nums.push_back(val);
+    int n = nums.size() - 1;
+    swap(nums[1], nums[n]);
+}
+
+void HeapSort(vector<int> &nums)
+{
+    int n = nums.size() - 1;
+
+    while(n > 0)
+    {
+        swap(nums[1],nums[n]);
+        sink(nums,1, n--);
+    }
+}
 
 int main()
 {
+    vector<int> vec = {-1, 10, 5, 35, 90, 27, 2, 9, 30, 25};
+    makeHeap(vec);
+    heapPrint(vec);
+
+    Insert(vec, 22);
+    heapPrint(vec);
+
+    //HeapSort(vec);
+    //heapPrint(vec);
 
 }
