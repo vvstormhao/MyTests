@@ -5,9 +5,13 @@
 #include <vector>
 
 using namespace std;
+
 void swim(vector<int> &nums, int nIndex)
 {
-    swap(nums[nIndex], nums[nIndex / 2]);
+    if (nums[nIndex / 2] < nums[nIndex])
+    {
+        swap(nums[nIndex], nums[nIndex / 2]);
+    }
 }
 
 void sink(vector<int> &nums, int nIndex, int nRange)
@@ -20,7 +24,7 @@ void sink(vector<int> &nums, int nIndex, int nRange)
         return;
     }
 
-    if (l < n && r < n)
+    if (r < n)
     {
         int rl = nums[l];
         int rr = nums[r];
