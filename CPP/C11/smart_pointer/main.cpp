@@ -1,23 +1,49 @@
 #include <iostream>
 #include <memory>
 
+using namespace std;
+class A
+{
+public:
+    virtual void func1() {printf("A::func1\n");}
+    virtual void func2() {printf("A::func2\n");}
+    virtual void func3() {printf("A::func3\n");}
+    virtual void func4() {printf("A::func4\n");}
+};
+
+class C
+{
+public:
+    virtual void func1() {printf("C::func1\n");}    
+};
+
+class B:public A
+{
+public:
+    virtual void func1() {printf("B::func1\n");}
+    virtual void func2() {printf("B::func2\n");}
+    void func3() {printf("B::func3\n");}
+    void func4() {printf("B::func4\n");}
+};
+
+typedef void (*pFunc)();
+
 int main()
 {
-    std::shared_ptr<int> p1 = std::make_shared<int>(4);
-    printf("p1 use_count() %d\n", p1.use_count());
+    A a;
+    
+    int size = int(sizeof(a));
+    printf("a size is %d\n", size);
 
-    std::shared_ptr<int> p2 = p1;
-    printf("p1 use_count() %d\n", p1.use_count());
+    B b;
+    size = int(sizeof(b));
+    printf("b size is %d\n", size);
 
-    std::shared_ptr<int> p3(p1);
-    printf("p1 use_count() %d\n", p1.use_count());
+    printf("a vptr is 0x%x\n", &a);
+    printf("b vptr is 0x%x\n", &b);
 
-    std::shared_ptr<int> p4(new int(10));
-    printf("p4 %d\n", *p4);    
+    pFunc pfunc = (pFunc)*((int*)*(int*)(&b));
+    pfunc();
 
-    p3.reset(new int(20));
-    printf("p3 %d\n", *p3);   
-    printf("p1 use_count() %d\n", p1.use_count()); 
-
-
+    return 1;
 }
